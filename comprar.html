@@ -147,6 +147,21 @@
   </div>
 
   <script>
+    // --- Navbar acoplable al lado izquierdo al hacer scroll (misma lógica que index.html) ---
+    const navbar = document.querySelector('.navbar');
+    const DOCK_OFFSET = 120;
+
+    function updateNavbarDock() {
+      if (window.innerWidth <= 900) {
+        navbar.classList.remove('docked');
+        return;
+      }
+      navbar.classList.toggle('docked', window.scrollY > DOCK_OFFSET);
+    }
+    window.addEventListener('scroll', updateNavbarDock, { passive: true });
+    window.addEventListener('resize', updateNavbarDock);
+    updateNavbarDock();
+
     const overlay = document.getElementById('checkout-overlay');
     const openBtn = document.getElementById('open-checkout');
     const closeBtn = document.getElementById('close-checkout');

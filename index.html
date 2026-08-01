@@ -15,7 +15,7 @@
     </div>
 
     <nav class="nav-links">
-      <a href="#inicio" class="active">INICIO</a>
+      <a href="#inicio">INICIO</a>
       <a href="#como-funciona">CÓMO FUNCIONA</a>
       <a href="#contacto">CONTACTO</a>
     </nav>
@@ -23,48 +23,50 @@
   </header>
 
   <main class="hero" id="inicio">
-    <div class="hero-text">
-      <p class="eyebrow">A TU ALCANCE</p>
-      <h1>PEGAMENTO<br>MOLDEABLE</h1>
-      <p class="description">
-        Si eres amante de las manualidades, bricolaje o el arte...
-        Este producto es para ti!
-      </p>
-      <a href="comprar.html" class="btn-primary">COMPRAR AHORA</a>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <p class="eyebrow">A TU ALCANCE</p>
+        <h1>PEGAMENTO<br>MOLDEABLE</h1>
+        <p class="description">
+          Si eres amante de las manualidades, bricolaje o el arte...
+          Este producto es para ti!
+        </p>
+        <a href="comprar.html" class="btn-primary">COMPRAR AHORA</a>
+      </div>
+
+      <div class="hero-image">
+        <div class="glow-circle"></div>
+        <img src="images/productos.png" alt="Productos Flexura" class="product-image">
+      </div>
     </div>
 
-    <div class="hero-image">
-      <div class="glow-circle"></div>
-      <img src="images/productos.png" alt="Productos Flexura" class="product-image">
+    <div class="scroll-indicator">
+      <span class="arrow-down">&#8595;</span>
     </div>
   </main>
 
-  <div class="scroll-indicator">
-    <span class="arrow-down">&#8595;</span>
-  </div>
-
-  <section class="how-it-works" id="como-funciona">
+  <section class="how-it-works reveal" id="como-funciona">
     <div class="how-text">
       <h2>Como<br>Funciona</h2>
       <p class="tag">NUESTRO PRODUCTO FLEXURA</p>
 
-      <div class="step">
+      <div class="step reveal" style="transition-delay: 0.05s;">
         <h3>#1 Paso</h3>
         <p class="step-desc">MEZCLAR LAS 8 GOTAS DEL LIQUIDO<br>ACTIVADOR CON EL COMPUESTO A</p>
       </div>
 
-      <div class="step">
+      <div class="step reveal" style="transition-delay: 0.15s;">
         <h3>#2 Paso</h3>
         <p class="step-desc">BATIR HASTA TENER UNA CONSISTENCIA<br>PASTOSA MÁXIMO 3 MINUTOS</p>
       </div>
 
-      <div class="step">
+      <div class="step reveal" style="transition-delay: 0.25s;">
         <h3>#3 Paso</h3>
         <p class="step-desc">PEGAR EL PRODUCTO EN LOS<br>MATERIALES DESEADOS<br>DEJAR REPOSAR AL MENOS 24 HORAS<br>PARA ASEGURAR SOLIDIFICACIÓN</p>
       </div>
     </div>
 
-    <div class="how-video">
+    <div class="how-video reveal" style="transition-delay: 0.2s;">
       <div class="browser-window">
         <div class="browser-topbar">
           <span class="browser-dot"></span>
@@ -82,7 +84,7 @@
   </section>
 
   <section class="contact" id="contacto">
-    <div class="contact-info">
+    <div class="contact-info reveal">
       <p class="contact-lead">Utiliza las siguientes vías de contacto,<br>o rellena el formulario.</p>
 
       <div class="contact-channel">
@@ -112,7 +114,7 @@
       </div>
     </div>
 
-    <form class="contact-form" id="contact-form">
+    <form class="contact-form reveal" id="contact-form" style="transition-delay: 0.15s;">
       <input type="text" name="nombre" placeholder="Escribe tu nombre" required>
       <input type="email" name="email" placeholder="Escribe tu e-mail" required>
       <input type="tel" name="telefono" placeholder="Escribe tu teléfono (Opcional)">
@@ -126,6 +128,53 @@
   </footer>
 
   <script>
+    // --- Navbar acoplable al lado izquierdo al hacer scroll ---
+    const navbar = document.querySelector('.navbar');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const DOCK_OFFSET = 120;
+
+    function updateNavbarDock() {
+      if (window.innerWidth <= 900) {
+        navbar.classList.remove('docked');
+        return;
+      }
+      navbar.classList.toggle('docked', window.scrollY > DOCK_OFFSET);
+    }
+    window.addEventListener('scroll', updateNavbarDock, { passive: true });
+    window.addEventListener('resize', updateNavbarDock);
+    updateNavbarDock();
+
+    // --- Scrollspy: resalta el link de la sección visible ---
+    const spySections = document.querySelectorAll('main[id], section[id]');
+    if (spySections.length && navLinks.length) {
+      const spyObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach((link) => {
+            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+          });
+        });
+      }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+
+      spySections.forEach((section) => spyObserver.observe(section));
+    }
+
+    // --- Animación "reveal": las secciones se iluminan al entrar en pantalla ---
+    const revealEls = document.querySelectorAll('.reveal');
+    if (revealEls.length) {
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.18 });
+
+      revealEls.forEach((el) => revealObserver.observe(el));
+    }
+
     // Envío básico del formulario de contacto (sin backend todavía).
     // Reemplaza este bloque por tu lógica real (fetch a un servidor, EmailJS, etc.)
     const contactForm = document.getElementById('contact-form');
