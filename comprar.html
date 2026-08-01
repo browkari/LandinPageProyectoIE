@@ -8,6 +8,8 @@
 </head>
 <body>
 
+  <div class="cursor-glow" aria-hidden="true"></div>
+
   <header class="navbar">
     <a href="index.html" class="logo">
       <img src="images/imagenf.png" alt="Logo Flexura" class="logo-icon">
@@ -15,6 +17,7 @@
     </a>
 
     <nav class="nav-links">
+      <span class="nav-indicator" aria-hidden="true"></span>
       <a href="comprar.html" class="active">COMPRAR</a>
     </nav>
 
@@ -31,16 +34,16 @@
       <span class="decor decor-5"></span>
     </div>
 
-    <div class="buy-header">
+    <div class="buy-header reveal">
       <p class="eyebrow">TU KIT FLEXURA</p>
       <h1>Elige tu kit y empieza a crear</h1>
     </div>
 
     <div class="buy-content">
-      <div class="price-card">
+      <div class="price-card reveal" style="transition-delay: 0.1s;">
         <span class="price-card-badge">Más vendido</span>
         <h2 class="price-card-title">Kit Básico</h2>
-        <p class="price-card-amount">90€<span class="price-card-unit">/ kit</span></p>
+        <p class="price-card-amount"><span id="price-value">0</span>€<span class="price-card-unit">/ kit</span></p>
 
         <ul class="price-card-list">
           <li>
@@ -75,7 +78,7 @@
         </div>
       </div>
 
-      <div class="cart-visual">
+      <div class="cart-visual reveal" style="transition-delay: 0.2s;">
         <div class="cart-glow"></div>
         <img src="images/carrito.png" alt="Carrito de compras" class="cart-img">
         <img src="images/empaque.png" alt="Empaque Flexura" class="package-img">
@@ -147,20 +150,133 @@
   </div>
 
   <script>
+    // --- Fade-in general de la página al cargar ---
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.add('page-ready');
+    });
+
+    // --- Halo que sigue al cursor ---
+    const cursorGlow = document.querySelector('.cursor-glow');
+    if (cursorGlow) {
+      let glowRaf = null;
+      window.addEventListener('mousemove', (e) => {
+        cursorGlow.classList.add('is-active');
+        if (glowRaf) return;
+        glowRaf = requestAnimationFrame(() => {
+          cursorGlow.style.left = `${e.clientX}px`;
+          cursorGlow.style.top = `${e.clientY}px`;
+          glowRaf = null;
+        });
+      }, { passive: true });
+      document.addEventListener('mouseleave', () => cursorGlow.classList.remove('is-active'));
+    }
+
+    // --- Efecto ripple en botones principales ---
+    function createRipple(e) {
+      const btn = e.currentTarget;
+      const rect = btn.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height) * 1.3;
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+      ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+      btn.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove());
+    }
+    document.querySelectorAll('.btn-primary, .btn-pay').forEach((btn) => {
+      btn.addEventListener('click', createRipple);
+    });
+
     // --- Navbar acoplable al lado izquierdo al hacer scroll (misma lógica que index.html) ---
     const navbar = document.querySelector('.navbar');
+    const navIndicator = document.querySelector('.nav-indicator');
     const DOCK_OFFSET = 120;
+
+    function updateNavIndicator() {
+      if (!navIndicator) return;
+      const activeLink = document.querySelector('.nav-links a.active');
+      if (!activeLink || navbar.classList.contains('docked')) {
+        navIndicator.classList.remove('is-visible');
+        return;
+      }
+      navIndicator.style.width = `${activeLink.offsetWidth}px`;
+      navIndicator.style.transform = `translateX(${activeLink.offsetLeft}px)`;
+      navIndicator.classList.add('is-visible');
+    }
 
     function updateNavbarDock() {
       if (window.innerWidth <= 900) {
         navbar.classList.remove('docked');
+        updateNavIndicator();
         return;
       }
       navbar.classList.toggle('docked', window.scrollY > DOCK_OFFSET);
+      updateNavIndicator();
     }
     window.addEventListener('scroll', updateNavbarDock, { passive: true });
     window.addEventListener('resize', updateNavbarDock);
     updateNavbarDock();
+
+    // --- Animación "reveal" para el encabezado, la tarjeta y el carrito ---
+    const revealEls = document.querySelectorAll('.reveal');
+    if (revealEls.length) {
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      revealEls.forEach((el) => revealObserver.observe(el));
+    }
+
+    // --- Conteo animado del precio al cargar la página ---
+    const priceValue = document.getElementById('price-value');
+    if (priceValue) {
+      const target = 90;
+      const duration = 900;
+      const start = performance.now();
+      function tickPrice(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        priceValue.textContent = Math.round(eased * target);
+        if (progress < 1) requestAnimationFrame(tickPrice);
+      }
+      setTimeout(() => requestAnimationFrame(tickPrice), 300);
+    }
+
+    // --- Efecto tilt 3D en la tarjeta de precio ---
+    const priceCard = document.querySelector('.price-card');
+    if (priceCard && window.matchMedia('(hover: hover)').matches) {
+      priceCard.addEventListener('mousemove', (e) => {
+        const rect = priceCard.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width - 0.5;
+        const py = (e.clientY - rect.top) / rect.height - 0.5;
+        priceCard.style.transform =
+          `perspective(1400px) rotateX(${(-py * 5).toFixed(2)}deg) rotateY(${(px * 5).toFixed(2)}deg) translateY(-4px)`;
+      });
+      priceCard.addEventListener('mouseleave', () => {
+        priceCard.style.transform = 'perspective(1400px) rotateX(0deg) rotateY(0deg) translateY(0)';
+      });
+    }
+
+    // --- Confeti para celebrar el pago confirmado ---
+    function launchConfetti(container) {
+      const colors = ['#9be62e', '#8ad623', '#a9c8f5', '#14141f'];
+      for (let i = 0; i < 26; i++) {
+        const piece = document.createElement('span');
+        piece.className = 'confetti-piece';
+        piece.style.left = `${Math.random() * 100}%`;
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDelay = `${(Math.random() * 0.3).toFixed(2)}s`;
+        piece.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg)`;
+        container.appendChild(piece);
+        piece.addEventListener('animationend', () => piece.remove());
+      }
+    }
 
     const overlay = document.getElementById('checkout-overlay');
     const openBtn = document.getElementById('open-checkout');
@@ -230,6 +346,7 @@
       setTimeout(() => {
         stepProcessing.classList.add('checkout-step-hidden');
         stepSuccess.classList.remove('checkout-step-hidden');
+        launchConfetti(document.querySelector('.checkout-modal'));
 
         setTimeout(() => {
           closeModal();

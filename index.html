@@ -8,6 +8,8 @@
 </head>
 <body>
 
+  <div class="cursor-glow" aria-hidden="true"></div>
+
   <header class="navbar">
     <div class="logo">
       <img src="images/imagenf.png" alt="Logo Flexura" class="logo-icon">
@@ -15,6 +17,7 @@
     </div>
 
     <nav class="nav-links">
+      <span class="nav-indicator" aria-hidden="true"></span>
       <a href="#inicio">INICIO</a>
       <a href="#como-funciona">CÓMO FUNCIONA</a>
       <a href="#contacto">CONTACTO</a>
@@ -128,17 +131,70 @@
   </footer>
 
   <script>
+    // --- Fade-in general de la página al cargar ---
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.add('page-ready');
+    });
+
+    // --- Halo que sigue al cursor ---
+    const cursorGlow = document.querySelector('.cursor-glow');
+    if (cursorGlow) {
+      let glowRaf = null;
+      window.addEventListener('mousemove', (e) => {
+        cursorGlow.classList.add('is-active');
+        if (glowRaf) return;
+        glowRaf = requestAnimationFrame(() => {
+          cursorGlow.style.left = `${e.clientX}px`;
+          cursorGlow.style.top = `${e.clientY}px`;
+          glowRaf = null;
+        });
+      }, { passive: true });
+      document.addEventListener('mouseleave', () => cursorGlow.classList.remove('is-active'));
+    }
+
+    // --- Efecto ripple en botones principales ---
+    function createRipple(e) {
+      const btn = e.currentTarget;
+      const rect = btn.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height) * 1.3;
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+      ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+      btn.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove());
+    }
+    document.querySelectorAll('.btn-primary, .btn-submit').forEach((btn) => {
+      btn.addEventListener('click', createRipple);
+    });
+
     // --- Navbar acoplable al lado izquierdo al hacer scroll ---
     const navbar = document.querySelector('.navbar');
     const navLinks = document.querySelectorAll('.nav-links a');
+    const navIndicator = document.querySelector('.nav-indicator');
     const DOCK_OFFSET = 120;
+
+    function updateNavIndicator() {
+      if (!navIndicator) return;
+      const activeLink = document.querySelector('.nav-links a.active');
+      if (!activeLink || navbar.classList.contains('docked')) {
+        navIndicator.classList.remove('is-visible');
+        return;
+      }
+      navIndicator.style.width = `${activeLink.offsetWidth}px`;
+      navIndicator.style.transform = `translateX(${activeLink.offsetLeft}px)`;
+      navIndicator.classList.add('is-visible');
+    }
 
     function updateNavbarDock() {
       if (window.innerWidth <= 900) {
         navbar.classList.remove('docked');
+        updateNavIndicator();
         return;
       }
       navbar.classList.toggle('docked', window.scrollY > DOCK_OFFSET);
+      updateNavIndicator();
     }
     window.addEventListener('scroll', updateNavbarDock, { passive: true });
     window.addEventListener('resize', updateNavbarDock);
@@ -154,6 +210,7 @@
           navLinks.forEach((link) => {
             link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
           });
+          updateNavIndicator();
         });
       }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
 
@@ -173,6 +230,36 @@
       }, { threshold: 0.18 });
 
       revealEls.forEach((el) => revealObserver.observe(el));
+    }
+
+    // --- Parallax suave del hero al mover el mouse ---
+    const heroSection = document.querySelector('.hero');
+    const heroImage = document.querySelector('.hero-image');
+    if (heroSection && heroImage && window.matchMedia('(hover: hover)').matches) {
+      heroSection.addEventListener('mousemove', (e) => {
+        const rect = heroSection.getBoundingClientRect();
+        const relX = (e.clientX - rect.left) / rect.width - 0.5;
+        const relY = (e.clientY - rect.top) / rect.height - 0.5;
+        heroImage.style.transform = `translate(${relX * -22}px, ${relY * -16}px)`;
+      });
+      heroSection.addEventListener('mouseleave', () => {
+        heroImage.style.transform = 'translate(0, 0)';
+      });
+    }
+
+    // --- Efecto tilt 3D en la ventana del video ---
+    const browserWindow = document.querySelector('.browser-window');
+    if (browserWindow && window.matchMedia('(hover: hover)').matches) {
+      browserWindow.addEventListener('mousemove', (e) => {
+        const rect = browserWindow.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width - 0.5;
+        const py = (e.clientY - rect.top) / rect.height - 0.5;
+        browserWindow.style.transform =
+          `perspective(1200px) rotateX(${(-py * 6).toFixed(2)}deg) rotateY(${(px * 6).toFixed(2)}deg)`;
+      });
+      browserWindow.addEventListener('mouseleave', () => {
+        browserWindow.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+      });
     }
 
     // Envío básico del formulario de contacto (sin backend todavía).
