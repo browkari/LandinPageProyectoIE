@@ -1,110 +1,86 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flexura | El Adhesivo Definitivo</title>
-    <!-- Enlace al archivo CSS separado -->
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flexura | Pegamento Moldeable</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- Navegación -->
-    <header>
-        <div class="logo">Flexura.</div>
-        <nav>
-            <a href="#inicio">Inicio</a>
-            <a href="#muestras">Cómo funciona</a>
-            <a href="#comprar" class="btn-nav">Comprar ahora</a>
-        </nav>
-    </header>
+  <header class="navbar">
+    <div class="logo">
+      <img src="images/imagenf.png" alt="Logo Flexura" class="logo-icon">
+      <span class="logo-text">FLEXURA</span>
+    </div>
 
-    <!-- Sección Principal (Hero) -->
-    <section id="inicio" class="hero-section">
-        <div class="hero-content">
-            <h1>Fuerza y flexibilidad en cada gota</h1>
-            <p>Descubre Flexura, la pega industrial diseñada para soportar las condiciones más extremas sin perder su flexibilidad. Ideal para todo tipo de proyectos y reparaciones.</p>
-            
-            <!-- Espacio para la acción de compra principal -->
-            <button class="btn-primary" id="btn-comprar-hero">Comprar Flexura</button>
+    <nav class="nav-links">
+      <a href="#inicio" class="active">INICIO</a>
+      <a href="#como-funciona">CÓMO FUNCIONA</a>
+      <a href="#contacto">CONTACTO</a>
+    </nav>
+
+    <a href="#informacion" class="btn-info">INFORMACIÓN</a>
+  </header>
+
+  <main class="hero" id="inicio">
+    <div class="hero-text">
+      <p class="eyebrow">A TU ALCANCE</p>
+      <h1>PEGAMENTO<br>MOLDEABLE</h1>
+      <p class="description">
+        Si eres amante de las manualidades, bricolaje o el arte...
+        Este producto es para ti!
+      </p>
+      <a href="#comprar" class="btn-primary">COMPRAR AHORA</a>
+    </div>
+
+    <div class="hero-image">
+      <div class="glow-circle"></div>
+      <img src="images/productos.png" alt="Productos Flexura" class="product-image">
+    </div>
+  </main>
+
+  <div class="scroll-indicator">
+    <span class="arrow-down">&#8595;</span>
+  </div>
+
+  <section class="how-it-works" id="como-funciona">
+    <div class="how-text">
+      <h2>Como<br>Funciona</h2>
+      <p class="tag">NUESTRO PRODUCTO FLEXURA</p>
+
+      <div class="step">
+        <h3>#1 Paso</h3>
+        <p class="step-desc">MEZCLAR LAS 8 GOTAS DEL LIQUIDO<br>ACTIVADOR CON EL COMPUESTO A</p>
+      </div>
+
+      <div class="step">
+        <h3>#2 Paso</h3>
+        <p class="step-desc">BATIR HASTA TENER UNA CONSISTENCIA<br>PASTOSA MÁXIMO 3 MINUTOS</p>
+      </div>
+
+      <div class="step">
+        <h3>#3 Paso</h3>
+        <p class="step-desc">PEGAR EL PRODUCTO EN LOS<br>MATERIALES DESEADOS<br>DEJAR REPOSAR AL MENOS 24 HORAS<br>PARA ASEGURAR SOLIDIFICACIÓN</p>
+      </div>
+    </div>
+
+    <div class="how-video">
+      <div class="browser-window">
+        <div class="browser-topbar">
+          <span class="browser-dot"></span>
+          <span class="browser-close">&times;</span>
         </div>
-        <div class="hero-image">
-            <!-- ESPACIO: Imagen principal del producto -->
-            <div class="placeholder-img main-product-img">
-                [Espacio para Imagen del Producto Flexura]
-            </div>
+        <div class="browser-body">
+          <div class="video-wrapper">
+      
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/DdbMwU4mhTw?si=n7vCQEYeKaUxXW_K" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <p class="video-caption">Video Presentación del Producto</p>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Sección de Muestras de Funcionamiento -->
-    <section id="muestras" class="demos-section">
-        <div class="section-header">
-            <h2>Muestras de Funcionamiento</h2>
-            <p>Mira a Flexura en acción con diferentes materiales</p>
-        </div>
-        
-        <div class="demo-grid">
-            <!-- Muestra 1 -->
-            <div class="demo-card">
-                <!-- ESPACIO: GIF o Video de muestra 1 -->
-                <div class="placeholder-img demo-img">
-                    [GIF/Video Muestra 1]
-                </div>
-                <h3>Unión de Metales</h3>
-                <p>Observa cómo Flexura une piezas metálicas pesadas en cuestión de segundos y sin esfuerzo.</p>
-            </div>
-            
-            <!-- Muestra 2 -->
-            <div class="demo-card">
-                <!-- ESPACIO: GIF o Video de muestra 2 -->
-                <div class="placeholder-img demo-img">
-                    [GIF/Video Muestra 2]
-                </div>
-                <h3>Prueba de Tensión extrema</h3>
-                <p>Soportando más de 50kg de peso directo sin que la unión ceda ni un milímetro.</p>
-            </div>
-            
-            <!-- Muestra 3 -->
-            <div class="demo-card">
-                <!-- ESPACIO: GIF o Video de muestra 3 -->
-                <div class="placeholder-img demo-img">
-                    [GIF/Video Muestra 3]
-                </div>
-                <h3>Flexibilidad en gomas</h3>
-                <p>El adhesivo se dobla y se adapta al movimiento del material sin agrietarse jamás.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 Flexura. Todos los derechos reservados.</p>
-    </footer>
-
-    <!-- JavaScript Básico -->
-    <script>
-        // Funcionalidad básica para el botón de compra
-        const btnComprar = document.getElementById('btn-comprar-hero');
-        if (btnComprar) {
-            btnComprar.addEventListener('click', () => {
-                alert('¡Gracias por tu interés en Flexura! Aquí puedes integrar tu pasarela de pago o carrito de compras.');
-            });
-        }
-
-        // Scroll suave para los enlaces de anclaje en el menú
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetSection = document.querySelector(targetId);
-                
-                if (targetSection) {
-                    targetSection.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
 </body>
 </html>
