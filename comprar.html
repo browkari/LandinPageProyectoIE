@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flexura | Comprar</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="index.html" class="logo">
+      <img src="images/imagenf.png" alt="Logo Flexura" class="logo-icon">
+      <span class="logo-text">FLEXURA</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="comprar.html" class="active">COMPRAR</a>
+    </nav>
+
+  </header>
+
+  <main class="buy-section">
+
+    <!-- Cuadros decorativos de fondo -->
+    <div class="decor-grid" aria-hidden="true">
+      <span class="decor decor-1"></span>
+      <span class="decor decor-2"></span>
+      <span class="decor decor-3"></span>
+      <span class="decor decor-4"></span>
+      <span class="decor decor-5"></span>
+    </div>
+
+    <div class="buy-header">
+      <p class="eyebrow">TU KIT FLEXURA</p>
+      <h1>Elige tu kit y empieza a crear</h1>
+    </div>
+
+    <div class="buy-content">
+      <div class="price-card">
+        <span class="price-card-badge">Más vendido</span>
+        <h2 class="price-card-title">Kit Básico</h2>
+        <p class="price-card-amount">90€<span class="price-card-unit">/ kit</span></p>
+
+        <ul class="price-card-list">
+          <li>
+            <svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Compuesto A (Base del pegamento).
+          </li>
+          <li>
+            <svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Compuesto B (Activador).
+          </li>
+          <li>
+            <svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Paleta de mezcla.
+          </li>
+          <li>
+            <svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Recipiente adicional.
+          </li>
+        </ul>
+
+        <button type="button" class="btn-primary btn-buy" id="open-checkout">COMPRAR</button>
+
+        <div class="trust-row">
+          <span class="trust-item">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M10 2L4 4.5V9.5C4 13.5 6.5 16.8 10 18C13.5 16.8 16 13.5 16 9.5V4.5L10 2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            Pago 100% seguro
+          </span>
+          <span class="trust-item">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M2 6H12V14H2V6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 9H15.5L18 12V14H12V9Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="5.5" cy="15.5" r="1.4" stroke="currentColor" stroke-width="1.4"/><circle cx="14.5" cy="15.5" r="1.4" stroke="currentColor" stroke-width="1.4"/></svg>
+            Envío en 24-48h
+          </span>
+        </div>
+      </div>
+
+      <div class="cart-visual">
+        <div class="cart-glow"></div>
+        <img src="images/carrito.png" alt="Carrito de compras" class="cart-img">
+        <img src="images/empaque.png" alt="Empaque Flexura" class="package-img">
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL: Simulación de pago -->
+  <div class="checkout-overlay" id="checkout-overlay">
+    <div class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+      <button type="button" class="checkout-close" id="close-checkout" aria-label="Cerrar">&times;</button>
+
+      <!-- Paso 1: formulario de tarjeta -->
+      <div class="checkout-step" id="step-form">
+        <h3 id="checkout-title">Pago seguro</h3>
+        <p class="checkout-subtitle">Kit Básico &middot; <strong>90€</strong></p>
+
+        <form id="payment-form">
+          <label class="field-label" for="card-name">Nombre en la tarjeta</label>
+          <input type="text" id="card-name" placeholder="Ej. Juan Pérez" required>
+
+          <label class="field-label" for="card-number">Número de tarjeta</label>
+          <input type="text" id="card-number" placeholder="0000 0000 0000 0000" inputmode="numeric" maxlength="19" required>
+
+          <div class="field-row">
+            <div>
+              <label class="field-label" for="card-expiry">Vencimiento</label>
+              <input type="text" id="card-expiry" placeholder="MM/AA" inputmode="numeric" maxlength="5" required>
+            </div>
+            <div>
+              <label class="field-label" for="card-cvv">CVV</label>
+              <input type="text" id="card-cvv" placeholder="123" inputmode="numeric" maxlength="3" required>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary btn-pay" id="pay-btn">PAGAR 90€</button>
+          <p class="checkout-note">Este es un pago simulado con fines universitarios. No se procesa ningún cargo real.</p>
+        </form>
+      </div>
+
+      <!-- Paso 2: procesando -->
+      <div class="checkout-step checkout-step-hidden" id="step-processing">
+        <div class="spinner"></div>
+        <p class="processing-text">Procesando tu pago...</p>
+      </div>
+
+      <!-- Paso 3: pagado -->
+      <div class="checkout-step checkout-step-hidden" id="step-success">
+        <div class="success-check">
+          <svg viewBox="0 0 52 52">
+            <circle cx="26" cy="26" r="24" fill="none"/>
+            <path fill="none" d="M14 27l8 8 16-16"/>
+          </svg>
+        </div>
+        <h3>¡PAGADO!</h3>
+        <p class="checkout-subtitle">Tu pedido del Kit Básico fue confirmado.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de confirmación -->
+  <div class="toast" id="toast">
+    <span class="toast-icon">✓</span>
+    <div>
+      <p class="toast-title">¡Compra realizada con éxito!</p>
+      <p class="toast-text">Revisa tu correo para ver los detalles de tu pedido.</p>
+    </div>
+  </div>
+
+  <script>
+    const overlay = document.getElementById('checkout-overlay');
+    const openBtn = document.getElementById('open-checkout');
+    const closeBtn = document.getElementById('close-checkout');
+    const form = document.getElementById('payment-form');
+    const payBtn = document.getElementById('pay-btn');
+
+    const stepForm = document.getElementById('step-form');
+    const stepProcessing = document.getElementById('step-processing');
+    const stepSuccess = document.getElementById('step-success');
+    const toast = document.getElementById('toast');
+
+    function openModal() {
+      overlay.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      resetModal();
+    }
+
+    function closeModal() {
+      overlay.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    function resetModal() {
+      stepForm.classList.remove('checkout-step-hidden');
+      stepProcessing.classList.add('checkout-step-hidden');
+      stepSuccess.classList.add('checkout-step-hidden');
+      payBtn.disabled = false;
+      payBtn.textContent = 'PAGAR 90€';
+    }
+
+    openBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeModal();
+    });
+
+    // Formateo simple de campos de tarjeta (datos ficticios)
+    const cardNumber = document.getElementById('card-number');
+    cardNumber.addEventListener('input', () => {
+      let digits = cardNumber.value.replace(/\D/g, '').slice(0, 16);
+      cardNumber.value = digits.replace(/(.{4})/g, '$1 ').trim();
+    });
+
+    const cardExpiry = document.getElementById('card-expiry');
+    cardExpiry.addEventListener('input', () => {
+      let digits = cardExpiry.value.replace(/\D/g, '').slice(0, 4);
+      if (digits.length >= 3) {
+        cardExpiry.value = digits.slice(0, 2) + '/' + digits.slice(2);
+      } else {
+        cardExpiry.value = digits;
+      }
+    });
+
+    const cardCvv = document.getElementById('card-cvv');
+    cardCvv.addEventListener('input', () => {
+      cardCvv.value = cardCvv.value.replace(/\D/g, '').slice(0, 3);
+    });
+
+    // Simulación de pago: formulario -> procesando -> pagado -> toast
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      stepForm.classList.add('checkout-step-hidden');
+      stepProcessing.classList.remove('checkout-step-hidden');
+
+      setTimeout(() => {
+        stepProcessing.classList.add('checkout-step-hidden');
+        stepSuccess.classList.remove('checkout-step-hidden');
+
+        setTimeout(() => {
+          closeModal();
+          form.reset();
+          showToast();
+        }, 1600);
+      }, 1700);
+    });
+
+    function showToast() {
+      toast.classList.add('is-visible');
+      setTimeout(() => {
+        toast.classList.remove('is-visible');
+      }, 4500);
+    }
+  </script>
+
+</body>
+</html>
