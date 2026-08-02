@@ -1025,7 +1025,7 @@ section, main {
 .package-img {
   position: absolute;
   z-index: 2;
-  top: 8%;
+  top: 10%;
   left: 50%;
   width: 34%;
   transform: translateX(-58%) rotate(-6deg);
