@@ -43,7 +43,7 @@
       <div class="price-card reveal" style="transition-delay: 0.1s;">
         <span class="price-card-badge">Más vendido</span>
         <h2 class="price-card-title">Kit Básico</h2>
-        <p class="price-card-amount"><span id="price-value">0</span>€<span class="price-card-unit">/ kit</span></p>
+        <p class="price-card-amount"><span id="price-value">0</span>$<span class="price-card-unit">/ kit</span></p>
 
         <ul class="price-card-list">
           <li>
@@ -95,7 +95,7 @@
       <!-- Paso 1: formulario de tarjeta -->
       <div class="checkout-step" id="step-form">
         <h3 id="checkout-title">Pago seguro</h3>
-        <p class="checkout-subtitle">Kit Básico &middot; <strong>90€</strong></p>
+        <p class="checkout-subtitle">Kit Básico &middot; <strong>8$</strong></p>
 
         <form id="payment-form">
           <label class="field-label" for="card-name">Nombre en la tarjeta</label>
@@ -115,7 +115,7 @@
             </div>
           </div>
 
-          <button type="submit" class="btn-primary btn-pay" id="pay-btn">PAGAR 90€</button>
+          <button type="submit" class="btn-primary btn-pay" id="pay-btn">PAGAR 8$</button>
           <p class="checkout-note">Este es un pago simulado con fines universitarios. No se procesa ningún cargo real.</p>
         </form>
       </div>
@@ -236,7 +236,7 @@
     // --- Conteo animado del precio al cargar la página ---
     const priceValue = document.getElementById('price-value');
     if (priceValue) {
-      const target = 90;
+      const target = 8;
       const duration = 900;
       const start = performance.now();
       function tickPrice(now) {
